@@ -2,7 +2,7 @@
 #include <leptonica/allheaders.h>
 #include <iostream>
 
-int main() {
+int OCR() {
 	// Tesseract APIのインスタンス作成
 	tesseract::TessBaseAPI api;
 
