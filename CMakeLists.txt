@@ -14,6 +14,7 @@ set(SOURCES
 	capture.cpp
 	selectRect.cpp
 	input.cpp
+	proc.cpp
 	main.cpp
 )
 

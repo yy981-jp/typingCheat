@@ -10,7 +10,7 @@ std::string OCR(PIX* image) {
 
 	// 初期化 (データパスorNULL,言語)
 	if (api.Init(NULL, "eng")) return_e("Tesseractの初期化に失敗しました");
-	api.SetVariable("tessedit_char_whitelist", "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.");
+	api.SetVariable("tessedit_char_whitelist", "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.-,");
 
 	// Leptonica
 	if (!image) return_e("画像の読み込みに失敗しました");

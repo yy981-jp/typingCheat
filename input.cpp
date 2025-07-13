@@ -1,6 +1,8 @@
 #include <string>
 #include <windows.h>
 
+#include <yy981/time.h>
+
 
 void sendKey(WORD key) {
 	INPUT inputs[2] = {};
@@ -16,11 +18,14 @@ void sendKey(WORD key) {
 	SendInput(2, inputs, sizeof(INPUT));
 }
 
-void inputParse(const std::string& text) {
+void inputParse(const std::string& text, int& wait) {
 	for (const char c: text) {
 		switch (c) {
 			case '.': sendKey(VK_OEM_PERIOD); break;
+			case '-': sendKey(VK_OEM_MINUS); break;
+			case ',': sendKey(VK_OEM_COMMA); break;
 			default: sendKey(c);
 		}
-	}
+	}   // どっちにsleepc入れるか好きに決めて
+	sleepc(tu::l,wait);
 }
