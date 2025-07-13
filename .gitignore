@@ -1,4 +1,5 @@
 /build/
+*.png
 
 # Created by https://www.toptal.com/developers/gitignore/api/c++,qt,notepadpp
 # Edit at https://www.toptal.com/developers/gitignore?templates=c++,qt,notepadpp
