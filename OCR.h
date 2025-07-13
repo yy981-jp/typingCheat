@@ -1,3 +1,4 @@
 #pragma once
+#include <string>
 #include <leptonica/allheaders.h>
-PIX* capture(int x, int y, int w, int h);
+std::string OCR(PIX* image);

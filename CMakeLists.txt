@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 project(tc)
 add_compile_options(-fdiagnostics-color=always)
 add_compile_options(-fexec-charset=cp932)
+add_compile_options(-g)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 set(CMAKE_AUTOMOC ON)
@@ -9,10 +10,10 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 # ソースファイル
 set(SOURCES
-	# OCR.cpp
+	OCR.cpp
 	capture.cpp
 	selectRect.cpp
-	# read.cpp
+	main.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

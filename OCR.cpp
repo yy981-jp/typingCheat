@@ -1,37 +1,29 @@
+#include <iostream>
+#include <string>
 #include <tesseract/baseapi.h>
 #include <leptonica/allheaders.h>
-#include <iostream>
 
-int OCR() {
-	// Tesseract APIのインスタンス作成
+#include <yy981/return.h>
+
+std::string OCR(PIX* image) {
 	tesseract::TessBaseAPI api;
 
-	// 初期化（第1引数: データパス or NULL, 第2引数: 言語）
-	if (api.Init(NULL, "eng")) {
-		std::cerr << "Tesseractの初期化に失敗しました。" << std::endl;
-		return 1;
-	}
+	// 初期化 (データパスorNULL,言語)
+	if (api.Init(NULL, "eng")) return_e("Tesseractの初期化に失敗しました");
+	api.SetVariable("tessedit_char_whitelist", "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
 
-	// 画像の読み込み（Leptonica使用）
-	Pix *image = pixRead("test.png");
-	if (!image) {
-		std::cerr << "画像の読み込みに失敗しました。" << std::endl;
-		return 1;
-	}
+	// Leptonica
+	if (!image) return_e("画像の読み込みに失敗しました");
 
-	// 画像をTesseractに渡す
+	// OCR (UTF-8)
 	api.SetImage(image);
-
-	// OCRを実行して文字列を取得（UTF-8で返ってくる）
 	char *outText = api.GetUTF8Text();
-
-	// 結果を表示
-	std::cout << "OCR結果:\n" << outText << std::endl;
+	std::string result(outText);
 
 	// 後処理
 	delete[] outText;
 	pixDestroy(&image);
 	api.End();
 
-	return 0;
+	return result;
 }

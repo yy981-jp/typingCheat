@@ -5,41 +5,44 @@
 
 #include <yy981/time.h>
 
-#include "capture.h"
-
-
 class CWidget: public QLabel {
+Q_OBJECT
 public:
 	CWidget() {
 		// setWindowFlags(Qt::FramelessWindowHint);
 		setAlignment(Qt::AlignCenter);
 		resize(500,300);
-		setText(QString::fromLocal8Bit("このウィンドウを読み取り場所に配置してください\n(タイトルバーは含まれません)"));
+		setText(QString::fromLocal8Bit("このウィンドウを読み取り場所に配置し、\nウィンドウ内をクリックしてください\n(タイトルバーは含まれません)"));
 		show();
 	}
 
 	void mousePressEvent(QMouseEvent *event) {
 		QRect rect = geometry();
 		QScreen *screen = this->screen();
-		qreal dpr = screen->devicePixelRatio(); // DPI倍率（例: 1.5）
-
-		int x = rect.x() * dpr;
-		int y = rect.y() * dpr;
-		int w = rect.width() * dpr;
-		int h = rect.height() * dpr;
+		qreal dpr = screen->devicePixelRatio(); // DPI倍率
 		hide();
-		sleepc(tu::s,1);
-		capture(x,y,w,h);
-		std::cout << "キャプチャ成功";
-		deleteLater();
+		emit rectSelected(QRect(rect.x()*dpr, rect.y()*dpr, rect.width()*dpr, rect.height()*dpr));
 	}
+signals:
+	void rectSelected(QRect rect);
 };
+#include "selectRect.moc"
 
-int main() {
+QRect getRect() {
 	int argc = 1;
 	char *argv[] = { (char*)"dummy" };
 	QApplication app(argc, argv);
-	CWidget window;
+	CWidget* window = new CWidget;
+	QRect r_rect;
+	QObject::connect(window, &CWidget::rectSelected, [&r_rect,window](QRect rect){
+		r_rect = rect;
+		// std::cout << "選択成功";
+		window->deleteLater();
+		// std::cout << "DBG::deleteLater\n";
+		QApplication::quit();
+		// std::cout << "DBG::quit\n";
+	});
 
-	return app.exec();
+	app.exec();
+	return r_rect;
 }
