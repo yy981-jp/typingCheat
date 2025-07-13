@@ -15,7 +15,7 @@
 #include "proc.h"
 
 bool enable = false;
-int wait = 500;
+int wait = 1000;
 
 
 void eventloop() {
